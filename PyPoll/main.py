@@ -8,6 +8,9 @@ import csv
 # Path to collect data from the Resources folder
 pypoll_csv = os.path.join("", "Resources","election_data.csv")
 
+# Path to export the result to text file
+pypoll_txt = os.path.join("Analysis", "pypoll_analysis.txt")
+
 # Set list of candidates
 candidates = []
 
@@ -46,11 +49,21 @@ with open(pypoll_csv, newline="")as csvfile:
         candidates.append(data[2])
 
 
-print("Election Results")
-print("-----------------------------")
-print("Total Votes : " + str(voterCounter))
-print("-----------------------------")
+#print("Election Results")
+#print("-----------------------------")
+#print("Total Votes : " + str(voterCounter))
+#print("-----------------------------")
 
+output = ( f"Election Results\n"
+           f"-----------------------------\n"
+           f"Total Votes : {voterCounter}\n"
+           f"-----------------------------\n")
+          
+# Export the results to text file
+with open(pypoll_txt, "w") as txt_file:
+    txt_file.write(output)
+
+print(output)
 # create list of distinct candidates by looping through each row 
 for x in candidates:
     if x not in distinct_candidates:
@@ -73,11 +86,26 @@ for x in candidates:
 
         # get the name of candidate who gets the maximum vote with the same index of maximum vote
         candidate_name_winner = distinct_candidates[max_vote_index]
-
- ######## print distinct candidate name with percentage count and total vote count
-        print((distinct_candidates[-1]) + " : " + (str(percent_per_candidates)) + "% "+ "(" + (str(votes_per_candidates)) + ")")
         
+ ######## print distinct candidate name with percentage count and total vote count
+        output2=(((distinct_candidates[-1]) + " : " + (str(percent_per_candidates)) + "% "+ "(" + (str(votes_per_candidates)) + ")\n"))
+        print(output2)
 
-print("-----------------------------")
-print("Winner : " + candidate_name_winner)
-print("-----------------------------")
+        # Append-adds at last
+        with open(pypoll_txt, "a") as txt_file:  
+            txt_file.write(output2)
+
+
+
+output3 = ( f"-----------------------------\n"
+            f"Winner : {candidate_name_winner}\n"
+            f"-----------------------------\n")
+
+print(output3)
+
+# Append-adds at last
+with open(pypoll_txt, "a") as txt_file:  
+    txt_file.write(output3)
+
+
+
